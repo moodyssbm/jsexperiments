@@ -1,0 +1,21 @@
+body {
+	background: #e5e5e5;
+}
+
+.container {
+	display: block;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	background: white;
+	color: black;
+}
+
+h1 {
+	padding: 20px;
+}
+
+#memes {
+	/* stuff */
+}
