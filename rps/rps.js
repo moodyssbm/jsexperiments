@@ -8,6 +8,7 @@ verbs = [
 	"f'd up",
 	'destroyed',
 	'killed'
+	'straight up murdered'
 ]
 
 nouns = [
