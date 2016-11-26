@@ -2,8 +2,21 @@ let verbs, nouns = [];
 let uWin, uLose, draw;
 
 // message pools
-verbs = ['obliterated', 'annihilated', "f'd up", 'destroyed']
-nouns = ['weenies', 'losers', 'jokers', 'dweebs']
+verbs = [
+	'obliterated',
+	'annihilated',
+	"f'd up",
+	'destroyed',
+	'killed'
+]
+
+nouns = [
+	'weenies',
+	'losers',
+	'jokers',
+	'dweebs',
+	'morons'
+]
 
 function shuffle(array) {
 	for (var i = array.length - 1; i > 0; i--) {
@@ -68,5 +81,5 @@ function rps(form, playerSel) {
 		if (aiSel == 'scissors') {
 			alert(draw);
 		}
-	}	
+	}
 }
