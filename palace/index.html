@@ -3,19 +3,16 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Palace Lite</title>
-
-		<style>
-			body {
-				background: #e5e5e5;
-				font-family: sans-serif;
-			}
-		</style>
-
+		<link rel="stylesheet" type="text/css" href="main.css"/>
 	</head>
 	<body>
-		<form name="" action="" method="" id="palace">
-			<input type="button" value="Click to start!" onClick="init()">
-		</form>
+		<div id="container">
+			<h1 id="message">Welcome to Palace!</h1>
+			<h3>Current pile value is: <span id="value">0</span></h3>
+			<form name="" action="" method="" id="palace">
+				<input type="button" value="Click to start!" onClick="init()">
+			</form>
+		</div>
 
 		<script src="palace.js"></script>
 	</body>

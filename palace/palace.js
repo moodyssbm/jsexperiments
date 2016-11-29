@@ -1,82 +1,79 @@
-//constants
-let thinking = '<h1>The AI is thinking...</h1>';
+// constants
+let thinking = 'The AI is thinking...';
+let message = document.getElementById('message');
+let value = document.getElementById('value');
+let cards = document.getElementById('palace');
 
 // variables
-var info = '';
-var pVal = 0;
-var deck = [];
-var play = [];
-var pHand = [];
-var pPile = [];
-var aiHand = [];
-var aiPile = [];
-var current = '';
-var playValue = 0;
+var deck, play, pPile, pHand, aiPile, aiHand;
 
 function init() {
-	info = '';
+	// initialize all variables back to 0
 	deck = [];
 	play = [];
-	pHand = [];
 	pPile = [];
-	aiHand = [];
+	pHand = [];
 	aiPile = [];
-	playValue = 0;
+	aiHand = [];
 
+	// create deck
 	for(x=0; x<4; x++) {
-		for(i=2; i<15; i++) {
-			deck.push(i);
+		for(y=2; y<15; y++) {
+			deck.push(y);
 		}
-
-		deck = shuffle(deck);
 	}
 
-	for(x=0; x<3; x++) {
-		pPile.push(deck[0]);
-		deck.splice(0,1);
-		aiPile.push(deck[0]);
-		deck.splice(0,1);
-	}
-
-	for(x=0; x<6; x++) {
-		pHand.push(deck[0]);
-		deck.splice(0,1);
-		aiHand.push(deck[0]);
-		deck.splice(0,1);
-	}
-
+	// shuffle the deck until first card is neither 2 nor 10
 	while(deck[0] == 2 || deck[0] == 10) {
-		deck = shuffle(deck);
+		deck = shuffled(deck);
 	}
 
+	// initialize play area w/ first card
 	play.push(deck[0]);
 	deck.splice(0,1);
+	value.innerHTML = play[play.length-1];
 
+	// set up pile and hand for both players
+	for(i=0; i<3; i++) {
+		pPile.push(deck[0]);
+		aiPile.push(deck[1]);
+		pHand.push(deck[2], deck[3]);
+		aiHand.push(deck[4], deck[5]);
+		deck.splice(0,6);
+	}
+
+	// sort the two players' hands
 	pHand = sorted(pHand);
+	aiHand = sorted(aiHand);
 
-	info = document.getElementById('palace');
-	info.innerHTML = 'It is your turn to set up.';
-
+	// let the player set up
 	pSetup();
-	
 }
 
 function pSetup() {
-	info.innerHTML = '<h1>It is your turn to set up.</h1><br>';
+	message.innerHTML = 'It is your turn to set up!';
 
+	// clear the cards
+	cards.innerHTML = ''
+
+	// display all cards in order, so the player can select
 	for(i=0; i<pHand.length; i++) {
-		info.innerHTML += '<input type="button" value="' + pHand[i] + '" onClick="pSetupStep(' + pHand[i] + ')"> '
+		cards.innerHTML += '<input type="button" value="' + pHand[i] + '" onClick="pSetupStep(' + pHand[i] + ')"> '
 	}
 
+	// determine if we need to keep setting up
 	if(pHand.length == 3) {
 		aiSetup();
 	}
 }
 
 function pSetupStep(card) {
+	// move the card we selected to the top of our pile
 	pPile.push(card);
+
+	// go back and remove the card from our hand
 	for(i=0; i<pHand.length; i++) {
-		if(pHand[i] == card) {
+		if (pHand[i] == card) {
 			pHand.splice(i,1);
 			break;
 		}
@@ -86,129 +83,27 @@ function pSetupStep(card) {
 }
 
 function aiSetup() {
-	info.innerHTML = thinking;
-
-	aiHand = sorted(aiHand);
-
-	while(aiHand.length > 3) {
-		aiPile.push(aiHand[aiHand.length-1]);
+	message.innerHTML = thinking;
+	while(aiHand.length != 3) {
+		aiPile.push(aiHand[aiHand.length-1])
 		aiHand.splice(aiHand.length-1, 1);
 	}
-
-	playValue = play[play.length-1]
-	pTurn();
+	console.log('all done for today!');
 }
 
-function pTurn() {
-	info.innerHTML = '<h1>Your turn!</h1>'
-	info.innerHTML += '<h2>The current pile value is: <b>' + playValue + '</b><br>'
+// ---------------------------|
+// IGNORE THE FUNCTIONS BELOW.|
+// ---------------------------|
+function shuffled(array) {
+	let counter = array.length;
 
-	pHand = sorted(pHand);
-
-	for(i=0; i<pHand.length; i++) {
-		info.innerHTML += '<input type="button" value="' + pHand[i] + '" onClick="pTurnStep(' + pHand[i] + ')"> ' 
-	}
-}
-
-function pTurnStep(card) {
-	if(card == 10){
-		playValue = 0;
-		play.push(card);
-		for(i=0; i<pHand.length; i++) {
-			if(pHand[i] = card) {
-				pHand.splice(i,1);
-				break;
-			}
-		}
-		pCheck(true);
-	} else if(card == 2) {
-		for(i=0; i<pHand.length; i++) {
-			if(pHand[i] == card) {
-				pHand.splice(i,1);
-				break;
-			}
-		}
-		play.splice(0,play.length);
-		playValue = 0;
-		pCheck(true);
-	} else if(play.length == 0) {
-		play.push(card);
-		for(i=0; i<pHand.length; i++) {
-			if(pHand[i] = card) {
-				pHand.splice(i,1);
-				break;
-			}
-		}
-		pCheck(false);
-	} else {
-		playValue = play[play.length-1];
-		if(card >= playValue) {
-			play.push(card);
-			for(i=0; i<pHand.length; i++) {
-				if(pHand[i] = card) {
-					pHand.splice(i,1);
-					break;
-				}
-			}
-			pCheck(false);
-		} else {
-			for(i=0; i<play.length; i++) {
-				pHand.push(play[i]);
-			}
-			play.splice(0,play.length);
-			aiTurn();
-		}
-	}
-}
-
-function pTurnSpecial(card) {
-	info.innerHTML = '<h1>You can play an additional card if you would like.</h1><br>';
-
-	for(i=0; i<pHand.length; i++) {
-		if(pHand[i] == play[play.length-1]) {
-			info.innerHTML += '<input type="button" value="' + pHand[i] + '" onClick="pTurnStep(' + pHand[i] + ')"> ' 
-		}
-	}
-
-	info.innerHTML += '<p><input type="button" value="Pass" onClick="aiTurn()"></p>';
-}
-
-function pCheck(goAgain) {
-
-	while(pHand.length < 3 && deck.length != 0) {
-		pHand.push(deck[0]);
-		deck.splice(0,1);
-	}
-
-	if(deck.length == 0 && pHand.length == 0) {
-		pHand.push(pPile[pPile.length-1]);
-		pPile.splice(pPile.length-1, 1);
-	}
-
-	if(goAgain) {
-		pTurn();
-	}
-
-	if(play.length > 0) {
-		for(i=0; i<pHand.length; i++) {
-			if(pHand[i] == play[play.length-1]) {
-				pTurnSpecial(pHand[i]);
-			}
-		}
-	}
-}
-
-function aiTurn() {
-	console.log('ai turn!');
-}
-
-function shuffle(array) {
-	for(i=array.length-1; i>0; i--) {
-		var j = Math.floor(Math.random()*(i+1))
-		var temp = array[i];
-		array[i] = array[j];
-		array[j] = temp;
-	}
+  while (counter > 0) {
+    let index = Math.floor(Math.random() * counter);
+    counter--;
+    let temp = array[counter];
+    array[counter] = array[index];
+    array[index] = temp;
+  }
 
 	return array;
 }
@@ -218,15 +113,9 @@ function sorted(array) {
 	return array;
 }
 
-function sortedInReverse(array) {
-	array.sort(function(a,b){return a-b});
-	var tmp = [];
-
-	for(i=0; i<array.length; i++){
-		tmp.push(array[array.length-1]);
-		array.splice(array.length-1, 1);
+function debug() {
+	let debugStuff = ['deck', deck, 'play', play, 'pPile', pPile, 'pHand', pHand, 'aiPile', aiPile, 'aiHand', aiHand];
+	for(i=0; i<debugStuff.length; i++) {
+		console.log(debugStuff[i]);
 	}
-
-	return tmp;
-
 }
