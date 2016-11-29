@@ -7,7 +7,7 @@ verbs = [
 	'annihilated',
 	"f'd up",
 	'destroyed',
-	'killed'
+	'killed',
 	'straight up murdered',
 	'incinerated'
 ]
