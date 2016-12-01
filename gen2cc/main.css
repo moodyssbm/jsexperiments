@@ -17,3 +17,8 @@ body {
 form {
 	padding: 5px;
 }
+
+#cright {
+	font-size: 50%;
+	font-style: italic;
+}

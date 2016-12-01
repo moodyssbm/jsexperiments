@@ -8,14 +8,14 @@
 // |                no less than 1 and no more than 255                              |
 // | BONUSstatus  = 10 for sleep or freeze                                           |
 // |                                                                                 |
-// | If 3 x HPmax > 255|
+// | If 3 x HPmax > 255                                                              |
 // |---------------------------------------------------------------------------------|
 
 
 // constants
 let pokedex = {
-	nullInfo: [0,0,0,0],
-	bulbasaur: [45, , 14, 45]
+	nullinfo: [0,0],				// [Base HP stat, Catch rate stat]
+	bulbasaur: [45, 45]
 };
 
 
@@ -29,19 +29,53 @@ let smolDex = [
 
 let listOfBalls = [
 	'Poke Ball',
+	'Great Ball',
+	'Ultra Ball',
 	'Level Ball'
 ];
 
 let chance = document.getElementById('catchRate');
 
+// let makeCalcFun = document.getElementById('calculate');
 let genPokes = document.getElementById('pokes');
 let genBalls = document.getElementById('pBalls');
-let genLvls = document.getElementById('lvls'); 
+let genLvls = document.getElementById('lvls');
+let genRemHP = document.getElementById('remHP');
+let genBallOpts = document.getElementById('ballOpts');
 
 // variables
 
 
 // main code
+function calculate() {
+	let getPoke = document.getElementById('pokes').value;
+	let makeItLower = getPoke.toLowerCase();
+
+	chance.innerHTML = pokedex[makeItLower][1];
+}
+
+function ballEff(ball) {
+	if(ball == 'Poke Ball') {
+		return 1.0;
+	} else if (ball == 'Great Ball') {
+		return 1.5;
+	} else if (ball == 'Ultra Ball') {
+		return 2.0;
+	}
+}
+
+function changeBallOpts() {
+	let currentBall = document.getElementById('pBalls').value;
+	if(currentBall == 'Level Ball') {
+		genBallOpts.innerHTML = "What is your Pokemon's Level in relation to the target Pokemon?<br>";
+		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="1">0.1x ~ 1.0x   ';
+		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="2">1.1x ~ 1.9x   ';
+		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="4">2.0x ~ 3.9x   ';
+		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="8">4.0x +';
+	}
+}
+
+// onload
 window.onload = function() {
 	genPokes.innerHTML = '<option value="nullInfo">Pokemon</option>';
 	for(i=0; i!=smolDex.length; i++) {
@@ -54,12 +88,14 @@ window.onload = function() {
 	}
 
 	genLvls.innerHTML = '<option value="nullInfo">Target\'s Level</option>';
+	for(i=0; i!=101; i++) {
+		genLvls.innerHTML += '<option value="' + i + '">' + i + '</optin>';
+	}
+
+	genRemHP.innerHTML = '<option value="nullinfo">Target\'s Remaining HP</option>';
+	for(i=10; i!=110; i+=10) {
+		genRemHP.innerHTML += '<option value="' + i + '">~' + i + '%</option>';
+	}
 }
 
-function calculate(form) {
-	chance.innerHTML = form.pokes.value;
-}
-
-function ballEff(ball) {
-	// stuff
-}
+setInterval(calculate, 1000);
