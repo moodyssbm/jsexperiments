@@ -36,7 +36,6 @@ let listOfBalls = [
 
 let chance = document.getElementById('catchRate');
 
-// let makeCalcFun = document.getElementById('calculate');
 let genPokes = document.getElementById('pokes');
 let genBalls = document.getElementById('pBalls');
 let genLvls = document.getElementById('lvls');
@@ -44,7 +43,7 @@ let genRemHP = document.getElementById('remHP');
 let genBallOpts = document.getElementById('ballOpts');
 
 // variables
-
+var modRate = 0;
 
 // main code
 function calculate() {
@@ -61,12 +60,17 @@ function ballEff(ball) {
 		return 1.5;
 	} else if (ball == 'Ultra Ball') {
 		return 2.0;
+	} else if (ball == 'Level Ball') {
+
 	}
 }
 
 function changeBallOpts() {
 	let currentBall = document.getElementById('pBalls').value;
-	if(currentBall == 'Level Ball') {
+	if(currentBall == 'Poke Ball') {
+		modRate = ballEff(currentBall);
+	} else if(currentBall == 'Level Ball') {
+		modRate = ballEff(currentBall);
 		genBallOpts.innerHTML = "What is your Pokemon's Level in relation to the target Pokemon?<br>";
 		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="1">0.1x ~ 1.0x   ';
 		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="2">1.1x ~ 1.9x   ';

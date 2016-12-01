@@ -1,0 +1,111 @@
+<!doctype>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PARTY</title>
+    <script src="//cdn.jsdelivr.net/sweep/latest/mainfile"></script>
+    <style>
+      body {
+        text-align: center;
+        font-family: sans-serif;
+        background: black;
+      }
+
+      #theParty { padding-top: 20px; }
+
+      #withWho { font-size: 75px; }
+    </style>
+  </head>
+  <body id="theBody">
+    <div id="theParty">
+      <form>
+        <input type="button" value="click to party" onclick="letsParty()">
+      </form>
+    </div>
+    <script>
+      let body = document.getElementById('theBody');
+      let theParty = document.getElementById('theParty');
+      let colors = ['red', 'blue', 'yellow'];
+      let withWho = [
+        'in my pants',
+        'in my nikes',
+        'with a gemini',
+        'with a pisces',
+        'with a loser',
+        'with a weirdo',
+        'with a punk kid, plugs in his earlobes',
+        'in a bathtub',
+        'on my rooftop',
+        'like twins do: synchronicity',
+        'with the old school cast of Felicity',
+        'with the fuzz',
+        'with some criminals',
+        'with the hurricanes',
+        'with the seminoles',
+        'with a stranger',
+        'with a newborn',
+        'with a shoehorn',
+        'with obama',
+        'with a point guard',
+        'with a head coach',
+        'like a dick cause an asshole said so',
+        'in my mouth',
+        'in my t-shirt',
+        'with some whiskey',
+        'with some reefer',
+        'like a banshee',
+        'like a frat boy',
+        'til you\'re gonna make a bad choice',
+        'with a mission',
+        'with a condom',
+        'like a monk',
+        'like john bonham',
+        'with a turtle',
+        'in a line, a square, a circle',
+        'with your hat on',
+        'with your hat off',
+        'half off',
+        'with a rabbi',
+        'with a pastor',
+        'with a hot guy let him in the back door',
+        'all day',
+        'like macbeth',
+        'like hamlet'
+      ];
+      let partyTime;
+
+      var counter = 0;
+
+      function letsParty() {
+          setInterval(function() {
+            colors = shuffled(colors);
+            body.style.background = colors[0];
+
+            theParty.innerHTML = '<h1>party <span id="withWho"></span></h1>'
+            partyTime = document.getElementById('withWho');
+            partyTime.innerHTML = withWho[counter];
+            counter++;
+
+            if (counter == withWho.length) {
+              withWho = shuffled(withWho);
+              counter = 0;
+            }
+          }, 800);
+      }
+
+      function shuffled(array) {
+      	for (var i = array.length - 1; i > 0; i--) {
+      		var j = Math.floor(Math.random() * (i + 1));
+      			var temp = array[i];
+      			array[i] = array [j];
+      			array[j] = temp;
+      	}
+      	return array;
+      }
+
+      setInterval(function() {
+        // figure out how to use sweep
+      })
+    </script>
+  </body>
+</html>
