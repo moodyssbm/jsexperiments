@@ -42,6 +42,8 @@ let genLvls = document.getElementById('lvls');
 let genRemHP = document.getElementById('remHP');
 let genBallOpts = document.getElementById('ballOpts');
 
+
+
 // variables
 var modRate = 0;
 
@@ -61,22 +63,24 @@ function ballEff(ball) {
 	} else if (ball == 'Ultra Ball') {
 		return 2.0;
 	} else if (ball == 'Level Ball') {
-
+		return getBallOpts.value;
 	}
 }
 
 function changeBallOpts() {
 	let currentBall = document.getElementById('pBalls').value;
-	if(currentBall == 'Poke Ball') {
-		modRate = ballEff(currentBall);
+	if(currentBall == 'Poke Ball' || currentBall == 'Great Ball' || currentBall == 'Ultra Ball') {
+		genBallOpts.innerHTML = "";
 	} else if(currentBall == 'Level Ball') {
 		modRate = ballEff(currentBall);
-		genBallOpts.innerHTML = "What is your Pokemon's Level in relation to the target Pokemon?<br>";
-		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="1">0.1x ~ 1.0x   ';
-		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="2">1.1x ~ 1.9x   ';
-		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="4">2.0x ~ 3.9x   ';
-		genBallOpts.innerHTML += '<input type="radio" name="pkb" value="8">4.0x +';
+		genBallOpts.innerHTML = 'What is your Pokemon\'s Level in relation to the target Pokemon?<br><select name="genBallOpts" id="theBallOpts">';
+		genBallOpts.innerHTML += '<option value="1">0.1x ~ 1.0x   ';
+		genBallOpts.innerHTML += '<option value="2">1.1x ~ 1.9x   ';
+		genBallOpts.innerHTML += '<option value="4">2.0x ~ 3.9x   ';
+		genBallOpts.innerHTML += '<option value="8">4.0x +</select>';
+		let getBallOpts = document.getElementById('theBallOpts');
 	}
+	modRate = pokedex[genPokes.value.toLowerCase()][1] * ballEff(currentBall);
 }
 
 // onload
@@ -92,7 +96,7 @@ window.onload = function() {
 	}
 
 	genLvls.innerHTML = '<option value="nullInfo">Target\'s Level</option>';
-	for(i=0; i!=101; i++) {
+	for(i=1; i!=101; i++) {
 		genLvls.innerHTML += '<option value="' + i + '">' + i + '</optin>';
 	}
 
