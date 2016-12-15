@@ -12,98 +12,91 @@
 // |---------------------------------------------------------------------------------|
 
 
-// constants
+// objs
 let pokedex = {
-	nullinfo: [0,0],				// [Base HP stat, Catch rate stat]
-	bulbasaur: [45, 45]
-};
-
-
-let balls = {
-	nullInfo: 0
-};
-
-let smolDex = [
-	'Bulbasaur',
-];
-
-let listOfBalls = [
-	'Poke Ball',
-	'Great Ball',
-	'Ultra Ball',
-	'Level Ball'
-];
-
-let chance = document.getElementById('catchRate');
-
-let genPokes = document.getElementById('pokes');
-let genBalls = document.getElementById('pBalls');
-let genLvls = document.getElementById('lvls');
-let genRemHP = document.getElementById('remHP');
-let genBallOpts = document.getElementById('ballOpts');
-
-
-
-// variables
-var modRate = 0;
-
-// main code
-function calculate() {
-	let getPoke = document.getElementById('pokes').value;
-	let makeItLower = getPoke.toLowerCase();
-
-	chance.innerHTML = pokedex[makeItLower][1];
+	nullInfo: [0,0],
+	Bulbasaur: [45, 45]
 }
 
-function ballEff(ball) {
-	if(ball == 'Poke Ball') {
-		return 1.0;
-	} else if (ball == 'Great Ball') {
-		return 1.5;
-	} else if (ball == 'Ultra Ball') {
-		return 2.0;
-	} else if (ball == 'Level Ball') {
-		return getBallOpts.value;
-	}
+let pokeballs = {
+	nullInfo: ['nullball', 0],
+	poke: ['Poke Ball', 1]
 }
 
-function changeBallOpts() {
-	let currentBall = document.getElementById('pBalls').value;
-	if(currentBall == 'Poke Ball' || currentBall == 'Great Ball' || currentBall == 'Ultra Ball') {
-		genBallOpts.innerHTML = "";
-	} else if(currentBall == 'Level Ball') {
-		modRate = ballEff(currentBall);
-		genBallOpts.innerHTML = 'What is your Pokemon\'s Level in relation to the target Pokemon?<br><select name="genBallOpts" id="theBallOpts">';
-		genBallOpts.innerHTML += '<option value="1">0.1x ~ 1.0x   ';
-		genBallOpts.innerHTML += '<option value="2">1.1x ~ 1.9x   ';
-		genBallOpts.innerHTML += '<option value="4">2.0x ~ 3.9x   ';
-		genBallOpts.innerHTML += '<option value="8">4.0x +</select>';
-		let getBallOpts = document.getElementById('theBallOpts');
-	}
-	modRate = pokedex[genPokes.value.toLowerCase()][1] * ballEff(currentBall);
-}
+// get elements
+let lvls = document.getElementById('lvls');
+let pokes = document.getElementById('pokes');
+let remHP = document.getElementById('remHP');
+let pBalls = document.getElementById('pBalls');
+let catchRate = document.getElementById('catchRate');
+let statusBonus = document.getElementById('statusBonus');
 
-// onload
 window.onload = function() {
-	genPokes.innerHTML = '<option value="nullInfo">Pokemon</option>';
-	for(i=0; i!=smolDex.length; i++) {
-		genPokes.innerHTML += '<option value="' + smolDex[i] + '">' + smolDex[i] + '</option>';
+	// init select boxes
+	pokes.innerHTML = '<option value="nullInfo">Target Pokemon</option>';
+	pBalls.innerHTML = '<option value="nullInfo">Poke Balls</option>';
+	lvls.innerHTML = '<option value="nullInfo">Target Pokemon\'s Level</option>';
+	remHP.innerHTML = '<option value="nullInfo">Target Pokemon\'s Remaining HP</option>'
+
+	// add values to those boxes
+	for(var i in pokedex) {
+		if(i != 'nullInfo') {
+			pokes.innerHTML += '<option value="' + i + '">' + i + '</option>';
+		}
 	}
 
-	genBalls.innerHTML = '<option value="nullInfo">Pokeballs</option>';
-	for(i=0; i!=listOfBalls.length; i++) {
-		genBalls.innerHTML += '<option value="' + listOfBalls[i] + '">' + listOfBalls[i] + '</option>';
+	for(var i in pokeballs) {
+		if(i != 'nullInfo') {
+			pBalls.innerHTML += '<option value="' + i + '">' + pokeballs[i][0] + '</option>';
+		}
 	}
 
-	genLvls.innerHTML = '<option value="nullInfo">Target\'s Level</option>';
 	for(i=1; i!=101; i++) {
-		genLvls.innerHTML += '<option value="' + i + '">' + i + '</optin>';
+		lvls.innerHTML += '<option value="' + i + '">' + i + '</option>';
 	}
 
-	genRemHP.innerHTML = '<option value="nullinfo">Target\'s Remaining HP</option>';
-	for(i=10; i!=110; i+=10) {
-		genRemHP.innerHTML += '<option value="' + i + '">~' + i + '%</option>';
+	for(i=5; i<105; i+= 5) {
+		remHP.innerHTML += '<option value="' + i + '">~' + i + '%</option>';
 	}
 }
 
-setInterval(calculate, 1000);
+function calculate(cr, bhp, pbb, l, rhp, sb) {
+	l = parseInt(l);
+	rhp = parseInt(rhp);
+
+	let thp = bhp + 7;
+	thp = thp * 2;
+	thp = thp * l;
+	thp = thp / 100;
+	thp += 10;
+	thp += l;
+
+	let nhp = thp * (rhp / 100);
+	let rm = cr * pbb;
+
+	let a = 3 * thp;
+	let b = 2 * nhp;
+	let c = 0;
+
+	if (thp*3 > 255) {
+		a = a / 4;
+		b = b / 4;
+	}
+
+	if(sb) {c=10;}
+
+	let final = (((a - b) * rm) / (a)) + c;
+
+	catchRate.innerHTML = final;
+}
+
+setInterval(function() {
+	calculate(
+		pokedex[pokes.value][0],
+		pokedex[pokes.value][1],
+		pokeballs[pBalls.value][1],
+		lvls.value,
+		remHP.value,
+		statusBonus.checked
+	);
+}, 1000);
