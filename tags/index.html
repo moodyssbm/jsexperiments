@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+  <body>
+    <div id="mainCont"></div>
+    <script>
+      let mainCont = document.getElementById('mainCont');
+      let anarray = ['Lorem', 'Ipsum', 'Dolor'];
+
+      function t(tag, cont) {
+        let a = '';
+        let x = a.concat('<', tag, '>', cont, '</', tag, '>');
+        return x;
+      }
+
+      window.onload = function() {
+        for(i=0; i!=anarray.length; i++) {
+          mainCont.innerHTML += t('h1', anarray[i]);
+        }
+      }
+    </script>
+  </body>
+</html>
