@@ -1,0 +1,24 @@
+body {
+	background: url('bg.png');
+	font-family: Helvetica, sans-serif;
+	background-size: 200%;
+}
+
+#container {
+	display: block;
+	width: 75%;
+	background: white;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+}
+
+form {
+	padding: 5px;
+}
+
+#cright {
+	font-size: 50%;
+	font-style: italic;
+}

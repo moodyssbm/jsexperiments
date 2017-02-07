@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Gen II Catch Rate Calculator</title>
+		<link rel="stylesheet" type="text/css" href="main.css"/>
+	</head>
+	<body>
+		<div id="container">
+			<h1>Pokemon Gen II Catch Rate Calculator</h1>
+			<h4>Your catch rate is <span id="catchRate">0</span>%</h4>
+
+			<form name="mainForm" action="" method="get">
+				<p>
+					<select name="pokes" id="pokes"></select>
+					<select name="pBalls" id="pBalls"></select>
+					<select name="lvls" id="lvls"></select>
+					<select name="remHP" id="remHP"><select/>
+				</p>
+				<p>
+					Is the target Pokemon Asleep or Frozen?
+					<input type="checkbox" name="statusBonus" id="statusBonus">
+				</p>
+				<p id="ballOpts"></p>
+			</form>
+
+			<script src="catch2.js"></script>
+			<span id="cright">code by Ethan Moody, 2016</span>
+		</div>
+	</body>
+</html>

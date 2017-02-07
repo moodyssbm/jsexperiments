@@ -1,0 +1,10 @@
+body {
+  background: black;
+}
+
+#pong {
+  border: 1px dashed rgb(0, 245, 60);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,20 @@
+body {
+  background: #e5e5e5;
+  font-family: sans-serif;
+}
+
+#container {
+  display: block;
+  width: 900px;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  background: white;
+  color: black;
+  text-align: center;
+  padding: 40px;
+}
+
+input {
+  font-size: 40px;
+}
